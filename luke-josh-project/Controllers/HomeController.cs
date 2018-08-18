@@ -1,4 +1,6 @@
-﻿using System;
+﻿using luke_josh_project.Models.ViewModels;
+using luke_josh_project.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +12,10 @@ namespace luke_josh_project.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            HomeService homeService = new HomeService();
+            HomeViewModel viewModel = homeService.GetHomeData();
+
+            return View(viewModel);
         }
 
         public ActionResult About()
