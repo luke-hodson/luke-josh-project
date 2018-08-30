@@ -26,5 +26,11 @@ namespace luke_josh_project.Data
         }
     
         public virtual DbSet<Person> Persons { get; set; }
+        public virtual DbSet<Activity> Activities { get; set; }
+        public virtual DbSet<ActivityHistory> ActivityHistories { get; set; }
+        public virtual DbSet<ResultOption> ResultOptions { get; set; }
+        public virtual DbSet<Team> Teams { get; set; }
+        public virtual DbSet<TeamUser> TeamUsers { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }

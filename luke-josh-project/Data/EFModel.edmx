@@ -5,6 +5,24 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Activities">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="255" />
+          <Property Name="HasBeenUsed" Type="bit" />
+          <Property Name="TeamId" Type="int" />
+        </EntityType>
+        <EntityType Name="ActivityHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TeamId" Type="int" />
+          <Property Name="ActivityId" Type="int" />
+          <Property Name="ResultOptionId" Type="int" />
+        </EntityType>
         <EntityType Name="Persons">
           <Key>
             <PropertyRef Name="ID" />
@@ -14,8 +32,160 @@
           <Property Name="FirstName" Type="varchar" MaxLength="255" />
           <Property Name="Age" Type="int" />
         </EntityType>
+        <EntityType Name="ResultOption">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Options" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Teams">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="Logo" Type="varchar(max)" />
+          <Property Name="UserId" Type="int" />
+        </EntityType>
+        <EntityType Name="TeamUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="TeamId" Type="int" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="255" />
+          <Property Name="LastName" Type="varchar" MaxLength="255" />
+          <Property Name="Email" Type="varchar" MaxLength="255" />
+          <Property Name="Password" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK__Activitie__TeamI__2C3393D0">
+          <End Role="Teams" Type="Self.Teams" Multiplicity="0..1" />
+          <End Role="Activities" Type="Self.Activities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teams">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Activities">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ActivityH__Activ__31EC6D26">
+          <End Role="Activities" Type="Self.Activities" Multiplicity="0..1" />
+          <End Role="ActivityHistory" Type="Self.ActivityHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ActivityHistory">
+              <PropertyRef Name="ActivityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ActivityH__Resul__32E0915F">
+          <End Role="ResultOption" Type="Self.ResultOption" Multiplicity="0..1" />
+          <End Role="ActivityHistory" Type="Self.ActivityHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResultOption">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ActivityHistory">
+              <PropertyRef Name="ResultOptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ActivityH__TeamI__30F848ED">
+          <End Role="Teams" Type="Self.Teams" Multiplicity="0..1" />
+          <End Role="ActivityHistory" Type="Self.ActivityHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teams">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ActivityHistory">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Teams__UserId__25869641">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Teams" Type="Self.Teams" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Teams">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TeamUsers__TeamI__29572725">
+          <End Role="Teams" Type="Self.Teams" Multiplicity="0..1" />
+          <End Role="TeamUsers" Type="Self.TeamUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teams">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TeamUsers">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TeamUsers__UserI__286302EC">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="TeamUsers" Type="Self.TeamUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TeamUsers">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Activities" EntityType="Self.Activities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ActivityHistory" EntityType="Self.ActivityHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Persons" EntityType="Self.Persons" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResultOption" EntityType="Self.ResultOption" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teams" EntityType="Self.Teams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TeamUsers" EntityType="Self.TeamUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Activitie__TeamI__2C3393D0" Association="Self.FK__Activitie__TeamI__2C3393D0">
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="Activities" EntitySet="Activities" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ActivityH__Activ__31EC6D26" Association="Self.FK__ActivityH__Activ__31EC6D26">
+            <End Role="Activities" EntitySet="Activities" />
+            <End Role="ActivityHistory" EntitySet="ActivityHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ActivityH__Resul__32E0915F" Association="Self.FK__ActivityH__Resul__32E0915F">
+            <End Role="ResultOption" EntitySet="ResultOption" />
+            <End Role="ActivityHistory" EntitySet="ActivityHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ActivityH__TeamI__30F848ED" Association="Self.FK__ActivityH__TeamI__30F848ED">
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="ActivityHistory" EntitySet="ActivityHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Teams__UserId__25869641" Association="Self.FK__Teams__UserId__25869641">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Teams" EntitySet="Teams" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TeamUsers__TeamI__29572725" Association="Self.FK__TeamUsers__TeamI__29572725">
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="TeamUsers" EntitySet="TeamUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TeamUsers__UserI__286302EC" Association="Self.FK__TeamUsers__UserI__286302EC">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TeamUsers" EntitySet="TeamUsers" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -23,6 +193,40 @@
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="EFContext" annotation:LazyLoadingEnabled="true" >
           <EntitySet Name="Persons" EntityType="Model.Person" />
+          <EntitySet Name="Activities" EntityType="Model.Activity" />
+          <EntitySet Name="ActivityHistories" EntityType="Model.ActivityHistory" />
+          <EntitySet Name="ResultOptions" EntityType="Model.ResultOption" />
+          <EntitySet Name="Teams" EntityType="Model.Team" />
+          <EntitySet Name="TeamUsers" EntityType="Model.TeamUser" />
+          <EntitySet Name="Users" EntityType="Model.User" />
+          <AssociationSet Name="FK__Activitie__TeamI__2C3393D0" Association="Model.FK__Activitie__TeamI__2C3393D0">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="Activity" EntitySet="Activities" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ActivityH__Activ__31EC6D26" Association="Model.FK__ActivityH__Activ__31EC6D26">
+            <End Role="Activity" EntitySet="Activities" />
+            <End Role="ActivityHistory" EntitySet="ActivityHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ActivityH__Resul__32E0915F" Association="Model.FK__ActivityH__Resul__32E0915F">
+            <End Role="ResultOption" EntitySet="ResultOptions" />
+            <End Role="ActivityHistory" EntitySet="ActivityHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ActivityH__TeamI__30F848ED" Association="Model.FK__ActivityH__TeamI__30F848ED">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="ActivityHistory" EntitySet="ActivityHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Teams__UserId__25869641" Association="Model.FK__Teams__UserId__25869641">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Team" EntitySet="Teams" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TeamUsers__TeamI__29572725" Association="Model.FK__TeamUsers__TeamI__29572725">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="TeamUser" EntitySet="TeamUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TeamUsers__UserI__286302EC" Association="Model.FK__TeamUsers__UserI__286302EC">
+            <End Role="User" EntitySet="Users" />
+            <End Role="TeamUser" EntitySet="TeamUsers" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Person">
           <Key>
@@ -33,6 +237,156 @@
           <Property Name="FirstName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Age" Type="Int32" />
         </EntityType>
+        <EntityType Name="Activity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HasBeenUsed" Type="Boolean" />
+          <Property Name="TeamId" Type="Int32" />
+          <NavigationProperty Name="Team" Relationship="Model.FK__Activitie__TeamI__2C3393D0" FromRole="Activity" ToRole="Team" />
+          <NavigationProperty Name="ActivityHistories" Relationship="Model.FK__ActivityH__Activ__31EC6D26" FromRole="Activity" ToRole="ActivityHistory" />
+        </EntityType>
+        <EntityType Name="ActivityHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TeamId" Type="Int32" />
+          <Property Name="ActivityId" Type="Int32" />
+          <Property Name="ResultOptionId" Type="Int32" />
+          <NavigationProperty Name="Activity" Relationship="Model.FK__ActivityH__Activ__31EC6D26" FromRole="ActivityHistory" ToRole="Activity" />
+          <NavigationProperty Name="ResultOption" Relationship="Model.FK__ActivityH__Resul__32E0915F" FromRole="ActivityHistory" ToRole="ResultOption" />
+          <NavigationProperty Name="Team" Relationship="Model.FK__ActivityH__TeamI__30F848ED" FromRole="ActivityHistory" ToRole="Team" />
+        </EntityType>
+        <EntityType Name="ResultOption">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Options" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ActivityHistories" Relationship="Model.FK__ActivityH__Resul__32E0915F" FromRole="ResultOption" ToRole="ActivityHistory" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Logo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="Int32" />
+          <NavigationProperty Name="Activities" Relationship="Model.FK__Activitie__TeamI__2C3393D0" FromRole="Team" ToRole="Activity" />
+          <NavigationProperty Name="ActivityHistories" Relationship="Model.FK__ActivityH__TeamI__30F848ED" FromRole="Team" ToRole="ActivityHistory" />
+          <NavigationProperty Name="User" Relationship="Model.FK__Teams__UserId__25869641" FromRole="Team" ToRole="User" />
+          <NavigationProperty Name="TeamUsers" Relationship="Model.FK__TeamUsers__TeamI__29572725" FromRole="Team" ToRole="TeamUser" />
+        </EntityType>
+        <EntityType Name="TeamUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="TeamId" Type="Int32" />
+          <NavigationProperty Name="Team" Relationship="Model.FK__TeamUsers__TeamI__29572725" FromRole="TeamUser" ToRole="Team" />
+          <NavigationProperty Name="User" Relationship="Model.FK__TeamUsers__UserI__286302EC" FromRole="TeamUser" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Teams" Relationship="Model.FK__Teams__UserId__25869641" FromRole="User" ToRole="Team" />
+          <NavigationProperty Name="TeamUsers" Relationship="Model.FK__TeamUsers__UserI__286302EC" FromRole="User" ToRole="TeamUser" />
+        </EntityType>
+        <Association Name="FK__Activitie__TeamI__2C3393D0">
+          <End Type="Model.Team" Role="Team" Multiplicity="0..1" />
+          <End Type="Model.Activity" Role="Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ActivityH__Activ__31EC6D26">
+          <End Type="Model.Activity" Role="Activity" Multiplicity="0..1" />
+          <End Type="Model.ActivityHistory" Role="ActivityHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ActivityHistory">
+              <PropertyRef Name="ActivityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ActivityH__Resul__32E0915F">
+          <End Type="Model.ResultOption" Role="ResultOption" Multiplicity="0..1" />
+          <End Type="Model.ActivityHistory" Role="ActivityHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResultOption">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ActivityHistory">
+              <PropertyRef Name="ResultOptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ActivityH__TeamI__30F848ED">
+          <End Type="Model.Team" Role="Team" Multiplicity="0..1" />
+          <End Type="Model.ActivityHistory" Role="ActivityHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ActivityHistory">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Teams__UserId__25869641">
+          <End Type="Model.User" Role="User" Multiplicity="0..1" />
+          <End Type="Model.Team" Role="Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TeamUsers__TeamI__29572725">
+          <End Type="Model.Team" Role="Team" Multiplicity="0..1" />
+          <End Type="Model.TeamUser" Role="TeamUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TeamUser">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TeamUsers__UserI__286302EC">
+          <End Type="Model.User" Role="User" Multiplicity="0..1" />
+          <End Type="Model.TeamUser" Role="TeamUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TeamUser">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -46,6 +400,64 @@
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Activities">
+            <EntityTypeMapping TypeName="Model.Activity">
+              <MappingFragment StoreEntitySet="Activities">
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+                <ScalarProperty Name="HasBeenUsed" ColumnName="HasBeenUsed" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ActivityHistories">
+            <EntityTypeMapping TypeName="Model.ActivityHistory">
+              <MappingFragment StoreEntitySet="ActivityHistory">
+                <ScalarProperty Name="ResultOptionId" ColumnName="ResultOptionId" />
+                <ScalarProperty Name="ActivityId" ColumnName="ActivityId" />
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResultOptions">
+            <EntityTypeMapping TypeName="Model.ResultOption">
+              <MappingFragment StoreEntitySet="ResultOption">
+                <ScalarProperty Name="Options" ColumnName="Options" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="Model.Team">
+              <MappingFragment StoreEntitySet="Teams">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TeamUsers">
+            <EntityTypeMapping TypeName="Model.TeamUser">
+              <MappingFragment StoreEntitySet="TeamUsers">
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="Model.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
