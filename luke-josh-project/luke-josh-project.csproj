@@ -226,6 +226,18 @@
     <Compile Include="Data\ActivityHistory.cs">
       <DependentUpon>EFModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\AspNetRole.cs">
+      <DependentUpon>EFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\AspNetUser.cs">
+      <DependentUpon>EFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\AspNetUserClaim.cs">
+      <DependentUpon>EFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\AspNetUserLogin.cs">
+      <DependentUpon>EFModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\EFModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

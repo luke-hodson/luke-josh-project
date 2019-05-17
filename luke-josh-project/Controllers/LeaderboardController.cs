@@ -7,5 +7,6 @@ namespace luke_josh_project.Controllers
 {
     public class LeaderboardController
     {
+
     }
 }
