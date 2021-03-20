@@ -12,24 +12,20 @@ namespace luke_josh_project.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class PokerMatch
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
+        public PokerMatch()
         {
-            this.Teams = new HashSet<Team>();
-            this.TeamUsers = new HashSet<TeamUser>();
+            this.PokerResults = new HashSet<PokerResult>();
         }
     
         public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public bool IsWinnerTakesAll { get; set; }
+        public int BuyIn { get; set; }
+        public System.DateTime Date { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Team> Teams { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TeamUser> TeamUsers { get; set; }
+        public virtual ICollection<PokerResult> PokerResults { get; set; }
     }
 }

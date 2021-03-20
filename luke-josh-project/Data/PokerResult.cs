@@ -12,13 +12,17 @@ namespace luke_josh_project.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class TeamUser
+    public partial class PokerResult
     {
         public int Id { get; set; }
-        public Nullable<int> UserId { get; set; }
-        public Nullable<int> TeamId { get; set; }
+        public int PokerMatchId { get; set; }
+        public int PokerUserId { get; set; }
+        public int Placing { get; set; }
     
-        public virtual Team Team { get; set; }
-        public virtual User User { get; set; }
+        public virtual PokerResult PokerResults1 { get; set; }
+        public virtual PokerResult PokerResult1 { get; set; }
+        public virtual PokerUser PokerUser { get; set; }
+        public virtual PokerMatch PokerMatch { get; set; }
+        public virtual PokerUser PokerUser1 { get; set; }
     }
 }

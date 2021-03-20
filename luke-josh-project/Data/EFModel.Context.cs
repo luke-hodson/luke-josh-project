@@ -25,16 +25,12 @@ namespace luke_josh_project.Data
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Person> Persons { get; set; }
-        public virtual DbSet<Activity> Activities { get; set; }
-        public virtual DbSet<ActivityHistory> ActivityHistories { get; set; }
-        public virtual DbSet<ResultOption> ResultOptions { get; set; }
-        public virtual DbSet<Team> Teams { get; set; }
-        public virtual DbSet<TeamUser> TeamUsers { get; set; }
-        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<PokerResult> PokerResults { get; set; }
+        public virtual DbSet<PokerUser> PokerUsers { get; set; }
+        public virtual DbSet<PokerMatch> PokerMatches { get; set; }
     }
 }

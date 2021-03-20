@@ -12,27 +12,22 @@ namespace luke_josh_project.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Team
+    public partial class PokerUser
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Team()
+        public PokerUser()
         {
-            this.Activities = new HashSet<Activity>();
-            this.ActivityHistories = new HashSet<ActivityHistory>();
-            this.TeamUsers = new HashSet<TeamUser>();
+            this.PokerResults = new HashSet<PokerResult>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Logo { get; set; }
-        public Nullable<int> UserId { get; set; }
+        public System.DateTime AddedDate { get; set; }
     
+        public virtual PokerResult PokerResult { get; set; }
+        public virtual PokerUser PokerUsers1 { get; set; }
+        public virtual PokerUser PokerUser1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Activity> Activities { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ActivityHistory> ActivityHistories { get; set; }
-        public virtual User User { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TeamUser> TeamUsers { get; set; }
+        public virtual ICollection<PokerResult> PokerResults { get; set; }
     }
 }
