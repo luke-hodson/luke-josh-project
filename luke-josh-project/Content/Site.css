@@ -22,3 +22,17 @@ select,
 textarea {
     max-width: 280px;
 }
+
+#sortable {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+#sortable li {
+    margin: 5px;
+    padding: 5px;
+    width: 150px;
+}
+

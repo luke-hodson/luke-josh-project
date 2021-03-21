@@ -3,19 +3,39 @@
     ViewBag.Title = "Stats";
 }
 <h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
 <div class="row">
     <div class="col-md-12">
-        <h3>Users</h3>
-        <select class="form-control">
-            @foreach (var user in Model.Users)
+        <h3>Scoreboard</h3>
+        <table style="width:100%">
+            <tr>
+                <th>Name</th>
+                <th>Games played</th>
+                <th>Win %</th>
+                <th>Total wins</th>
+                <th>Total Losses</th>
+                <th>Total incomings</th>
+                <th>Total outgoings</th>
+                <th>Profit</th>
+            </tr>
+
+            @foreach (var match in Model.Scoreboard)
             {
-                <option>@user.Name</option>
+                <tr>
+                    <td>@match.Name</td>
+                    <td>@match.GamesPlayed</td>
+                    <td>%@match.WinPercentage</td>
+                    <td>@match.TotalWins</td>
+                    <td>@match.TotalLosses</td>
+                    <td>@match.TotalIncomings</td>
+                    <td>@match.TotalOutgoings</td>
+                    <td>@match.Profit</td>
+                </tr>
             }
-        </select>
+        </table>
     </div>
 </div>
+
 <div class="row">
     <div class="col-md-12">
         <h3>Match history</h3>
@@ -33,33 +53,3 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <h3>Scoreboard</h3>
-        <table style="width:100%">
-            <tr>
-                <th>Name</th>
-                <th>Games played</th>
-                <th>Win %</th>
-                <th>Total wins</th>
-                <th>Total Losses</th>
-                <th>Total incomings</th>
-                <th>Total outgoings</th>
-                <th>Profit</th>
-            </tr>
-            @foreach (var match in Model.Scoreboard)
-            {
-        <tr>
-            <td>@match.Name</td>
-            <td>@match.GamesPlayed</td>
-            <td>%@match.WinPercentage</td>
-            <td>@match.TotalWins</td>
-            <td>@match.TotalLosses</td>
-            <td>@match.TotalIncomings</td>
-            <td>@match.TotalOutgoings</td>
-            <td>@match.Profit</td>
-        </tr>
-            }
-        </table>
-    </div>
-</div>

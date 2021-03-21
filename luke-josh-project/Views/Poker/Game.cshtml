@@ -1,0 +1,42 @@
+﻿@model luke_josh_project.Models.ViewModels.GameViewModel
+@{
+
+    ViewBag.Title = "Game";
+}
+<h2>Manage games.</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>New game</h3>
+        <div class="form-group">
+            <label>Buy in</label>
+            <input type="number" class="form-control" id="buy-in" />
+        </div>
+
+        <div class="form-group">
+            <label>Winner takes all</label><br />
+            <input type="checkbox" id="winner-takes-all" />
+        </div>
+
+        <label>Placing</label>
+        <ul id="sortable">
+            @foreach (var item in Model.Users)
+            {
+                <li class="ui-state-default" value="@item.Id">@item.Name</li>
+            }
+        </ul>
+
+        <div class="form-group">
+            <input type="button" id="submit-form" class="btn btn-primary" value="Submit" onclick="game.submit()" />
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/JS/game.js"></script>
+<script>
+    var game = "";
+    $(function () {
+        $("#sortable").sortable();
+        game = new Game();      
+    });
+</script>

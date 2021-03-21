@@ -81,11 +81,19 @@ namespace luke_josh_project.Controllers
 
         }
 
-        public ActionResult Contact()
+        public ActionResult Game()
         {
-            ViewBag.Message = "Your contact page.";
+            GameViewModel model = new GameViewModel();
+            PokerService pokerService = new PokerService();
+            var data = pokerService.GetPokerData();
+            model.Users = data.Users;
+            return View(model);
+        }
 
-            return View();
+        
+        public void AddGame(string order, int buyIn, bool winnerTakes)
+        {
+
         }
     }
 }
