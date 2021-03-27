@@ -1,6 +1,5 @@
 ﻿function Site() {
     this.ajax = function (url, data, success) {
-        debugger;
         $.ajax({
             type: "POST",
             url: url,

@@ -22,7 +22,7 @@
         <ul id="sortable">
             @foreach (var item in Model.Users)
             {
-                <li class="ui-state-default" value="@item.Id">@item.Name</li>
+                <li class="ui-state-default" id="@item.Id">@item.Name</li>
             }
         </ul>
 

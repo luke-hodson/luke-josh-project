@@ -221,7 +221,6 @@
           <EntitySet Name="AspNetUserClaims" EntityType="Model.AspNetUserClaim" />
           <EntitySet Name="AspNetUserLogins" EntityType="Model.AspNetUserLogin" />
           <EntitySet Name="AspNetUsers" EntityType="Model.AspNetUser" />
-          <EntitySet Name="PokerResults" EntityType="Model.PokerResult" />
           <EntitySet Name="PokerUsers" EntityType="Model.PokerUser" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Model.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
@@ -230,14 +229,6 @@
           <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Model.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MatchResults_MatchResults" Association="Model.FK_MatchResults_MatchResults">
-            <End Role="PokerResult" EntitySet="PokerResults" />
-            <End Role="PokerResult1" EntitySet="PokerResults" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PokerResults_PokerUsers" Association="Model.FK_PokerResults_PokerUsers">
-            <End Role="PokerUser" EntitySet="PokerUsers" />
-            <End Role="PokerResult" EntitySet="PokerResults" />
           </AssociationSet>
           <AssociationSet Name="FK_PokerUsers_PokerUsers" Association="Model.FK_PokerUsers_PokerUsers">
             <End Role="PokerUser" EntitySet="PokerUsers" />
@@ -248,11 +239,12 @@
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
           <EntitySet Name="PokerMatches" EntityType="Model.PokerMatch" />
+          <EntitySet Name="PokerResults" EntityType="Model.PokerResult" />
           <AssociationSet Name="FK_PokerResults_PokerMatches" Association="Model.FK_PokerResults_PokerMatches">
             <End Role="PokerMatch" EntitySet="PokerMatches" />
             <End Role="PokerResult" EntitySet="PokerResults" />
           </AssociationSet>
-          <AssociationSet Name="FK_PokerResults_PokerUsers1" Association="Model.FK_PokerResults_PokerUsers1">
+          <AssociationSet Name="FK_PokerResults_PokerUsers" Association="Model.FK_PokerResults_PokerUsers">
             <End Role="PokerUser" EntitySet="PokerUsers" />
             <End Role="PokerResult" EntitySet="PokerResults" />
           </AssociationSet>
@@ -306,20 +298,6 @@
           <NavigationProperty Name="AspNetUserLogins" Relationship="Model.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
           <NavigationProperty Name="AspNetRoles" Relationship="Model.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
         </EntityType>
-        <EntityType Name="PokerResult">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PokerMatchId" Type="Int32" Nullable="false" />
-          <Property Name="PokerUserId" Type="Int32" Nullable="false" />
-          <Property Name="Placing" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="PokerResults1" Relationship="Model.FK_MatchResults_MatchResults" FromRole="PokerResult" ToRole="PokerResult1" />
-          <NavigationProperty Name="PokerResult1" Relationship="Model.FK_MatchResults_MatchResults" FromRole="PokerResult1" ToRole="PokerResult" />
-          <NavigationProperty Name="PokerUser" Relationship="Model.FK_PokerResults_PokerUsers" FromRole="PokerResult" ToRole="PokerUser" />
-          <NavigationProperty Name="PokerMatch" Relationship="Model.FK_PokerResults_PokerMatches" FromRole="PokerResult" ToRole="PokerMatch" />
-          <NavigationProperty Name="PokerUser1" Relationship="Model.FK_PokerResults_PokerUsers1" FromRole="PokerResult" ToRole="PokerUser" />
-        </EntityType>
         <EntityType Name="PokerUser">
           <Key>
             <PropertyRef Name="Id" />
@@ -327,10 +305,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="PokerResult" Relationship="Model.FK_PokerResults_PokerUsers" FromRole="PokerUser" ToRole="PokerResult" />
-          <NavigationProperty Name="PokerUsers1" Relationship="Model.FK_PokerUsers_PokerUsers" FromRole="PokerUser" ToRole="PokerUser1" />
-          <NavigationProperty Name="PokerUser1" Relationship="Model.FK_PokerUsers_PokerUsers" FromRole="PokerUser1" ToRole="PokerUser" />
-          <NavigationProperty Name="PokerResults" Relationship="Model.FK_PokerResults_PokerUsers1" FromRole="PokerUser" ToRole="PokerResult" />
+          <NavigationProperty Name="PokerResults" Relationship="Model.FK_PokerResults_PokerUsers" FromRole="PokerUser" ToRole="PokerResult" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="Model.AspNetUser" Role="AspNetUser" Multiplicity="1">
@@ -360,30 +335,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MatchResults_MatchResults">
-          <End Type="Model.PokerResult" Role="PokerResult" Multiplicity="1" />
-          <End Type="Model.PokerResult" Role="PokerResult1" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="PokerResult">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PokerResult1">
-              <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PokerResults_PokerUsers">
-          <End Type="Model.PokerUser" Role="PokerUser" Multiplicity="1" />
-          <End Type="Model.PokerResult" Role="PokerResult" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="PokerUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PokerResult">
-              <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PokerUsers_PokerUsers">
           <End Type="Model.PokerUser" Role="PokerUser" Multiplicity="1" />
           <End Type="Model.PokerUser" Role="PokerUser1" Multiplicity="0..1" />
@@ -410,6 +361,17 @@
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="PokerResults" Relationship="Model.FK_PokerResults_PokerMatches" FromRole="PokerMatch" ToRole="PokerResult" />
         </EntityType>
+        <EntityType Name="PokerResult">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PokerMatchId" Type="Int32" Nullable="false" />
+          <Property Name="PokerUserId" Type="Int32" Nullable="false" />
+          <Property Name="Placing" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PokerMatch" Relationship="Model.FK_PokerResults_PokerMatches" FromRole="PokerResult" ToRole="PokerMatch" />
+          <NavigationProperty Name="PokerUser" Relationship="Model.FK_PokerResults_PokerUsers" FromRole="PokerResult" ToRole="PokerUser" />
+        </EntityType>
         <Association Name="FK_PokerResults_PokerMatches">
           <End Type="Model.PokerMatch" Role="PokerMatch" Multiplicity="1" />
           <End Type="Model.PokerResult" Role="PokerResult" Multiplicity="*" />
@@ -422,7 +384,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PokerResults_PokerUsers1">
+        <Association Name="FK_PokerResults_PokerUsers">
           <End Type="Model.PokerUser" Role="PokerUser" Multiplicity="1" />
           <End Type="Model.PokerResult" Role="PokerResult" Multiplicity="*" />
           <ReferentialConstraint>
@@ -485,16 +447,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PokerResults">
-            <EntityTypeMapping TypeName="Model.PokerResult">
-              <MappingFragment StoreEntitySet="PokerResults">
-                <ScalarProperty Name="Placing" ColumnName="Placing" />
-                <ScalarProperty Name="PokerUserId" ColumnName="PokerUserId" />
-                <ScalarProperty Name="PokerMatchId" ColumnName="PokerMatchId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="PokerUsers">
             <EntityTypeMapping TypeName="Model.PokerUser">
               <MappingFragment StoreEntitySet="PokerUsers">
@@ -518,6 +470,16 @@
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="BuyIn" ColumnName="BuyIn" />
                 <ScalarProperty Name="IsWinnerTakesAll" ColumnName="IsWinnerTakesAll" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PokerResults">
+            <EntityTypeMapping TypeName="Model.PokerResult">
+              <MappingFragment StoreEntitySet="PokerResults">
+                <ScalarProperty Name="Placing" ColumnName="Placing" />
+                <ScalarProperty Name="PokerUserId" ColumnName="PokerUserId" />
+                <ScalarProperty Name="PokerMatchId" ColumnName="PokerMatchId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

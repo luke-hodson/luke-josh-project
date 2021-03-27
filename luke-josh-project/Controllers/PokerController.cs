@@ -12,6 +12,7 @@ namespace luke_josh_project.Controllers
 {
     public class PokerController : Controller
     {
+        PokerService _pokerService = new PokerService();
         public ActionResult Index()
         {
             return View();
@@ -22,12 +23,11 @@ namespace luke_josh_project.Controllers
             ViewBag.Message = "A page to contain stats";
 
             //grab the data
-            PokerService pokerService = new PokerService();
             List<ScoreboardModel> scoreboard = new List<ScoreboardModel>();
 
-            PokerViewModel viewModel = pokerService.GetPokerData();
-            List<Data.PokerResult> results = pokerService.GetResults();
-            List<Data.PokerMatch> matches = pokerService.GetMatches();
+            PokerViewModel viewModel = _pokerService.GetPokerData();
+            List<Data.PokerResult> results = _pokerService.GetResults();
+            List<Data.PokerMatch> matches = _pokerService.GetMatches();
             
 
             //loop through data and map it to model
@@ -91,9 +91,9 @@ namespace luke_josh_project.Controllers
         }
 
         
-        public void AddGame(string order, int buyIn, bool winnerTakes)
+        public void AddGameResult(string order, int buyIn, bool winnerTakes)
         {
-
+            _pokerService.
         }
     }
 }

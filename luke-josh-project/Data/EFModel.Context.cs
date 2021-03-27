@@ -29,8 +29,8 @@ namespace luke_josh_project.Data
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-        public virtual DbSet<PokerResult> PokerResults { get; set; }
         public virtual DbSet<PokerUser> PokerUsers { get; set; }
         public virtual DbSet<PokerMatch> PokerMatches { get; set; }
+        public virtual DbSet<PokerResult> PokerResults { get; set; }
     }
 }

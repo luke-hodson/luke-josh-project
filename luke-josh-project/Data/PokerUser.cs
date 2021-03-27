@@ -24,9 +24,6 @@ namespace luke_josh_project.Data
         public string Name { get; set; }
         public System.DateTime AddedDate { get; set; }
     
-        public virtual PokerResult PokerResult { get; set; }
-        public virtual PokerUser PokerUsers1 { get; set; }
-        public virtual PokerUser PokerUser1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PokerResult> PokerResults { get; set; }
     }

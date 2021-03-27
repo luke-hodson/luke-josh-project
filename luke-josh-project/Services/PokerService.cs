@@ -59,5 +59,30 @@ namespace luke_josh_project.Services
                 return data.ToList();
             };
         }
+
+        public void AddGameResult(bool winnerTakes, int buyIn)
+        {
+            PokerMatch match = new PokerMatch
+            {
+                Date = DateTime.Now,
+                IsWinnerTakesAll = winnerTakes,
+                BuyIn = buyIn                
+            };
+
+
+            PokerResult results = new PokerResult
+            {
+                PokerMatchId = 1,
+                Placing = 1,
+                PokerUserId = 1
+            };
+
+            using (var db = new EFContext())
+            {
+                var data = from matches in db.PokerMatches
+                           select matches;
+
+            };
+        }
     }
 }
