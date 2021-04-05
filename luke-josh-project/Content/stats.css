@@ -1,0 +1,26 @@
+﻿#match-history {
+    height: 300px;
+    width: 300px;
+    overflow: scroll;
+}
+
+    #match-history li {
+        border-top: 2px solid black;
+        list-style-type: none;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        padding-top: 10px;
+        padding-bottom: 0px;
+    }
+
+    #match-history ul {
+        padding-left: 0;
+    }
+
+#history-title {
+    margin-top: 70px;
+}
+
+#pieChart {
+    margin-top: 70px;
+}

@@ -18,7 +18,7 @@
         this.success = function (data) {
             $('#buy-in').val('');
             $('#winner-takes-all').prop('checked', false);            
-            alert('dope');
+            alert('added');
         };
 
         site.ajax("/Poker/AddGameResult", data, this.success);

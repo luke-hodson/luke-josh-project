@@ -3,6 +3,7 @@
 
     ViewBag.Title = "Game";
 }
+<link href="~/Content/game.css" rel="stylesheet" />
 <h2>Manage games.</h2>
 
 <div class="row">
@@ -35,7 +36,7 @@
                 <div>
                     <label>Game result</label>
                     <div id="qselected">
-                    </div>                    
+                    </div>
                 </div>
             </div>
         </div>
@@ -48,7 +49,7 @@
 <script src="~/Scripts/JS/game.js"></script>
 <script>
     var game = "";
-    $(function () {       
+    $(function () {
         game = new Game();
         game.buildDraggable();
     });

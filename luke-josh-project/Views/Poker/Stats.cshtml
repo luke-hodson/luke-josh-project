@@ -2,10 +2,18 @@
 @{
     ViewBag.Title = "Stats";
 }
+<link href="~/Content/stats.css" rel="stylesheet" />
 <h2>@ViewBag.Title.</h2>
 
 <div class="row">
     <div class="col-md-12">
+        <select class="form-control">
+            @foreach (var item in Model.Users)
+            {
+                <option>@item.Name</option>
+            }
+        </select>
+
         <h3>Scoreboard</h3>
         <table style="width:100%">
             <tr>
@@ -37,19 +45,37 @@
 </div>
 
 <div class="row">
-    <div class="col-md-12">
-        <h3>Match history</h3>
-        <ul>
-            @foreach (var match in Model.Matches)
-            {
-                <li>
-                    <p>Game: @match.Id</p>
-                    <p>Buy in: £@match.BuyIn</p>
-                    <p>Date: @match.Date</p>
-                    <p>Winner takes all: @match.IsWinnerTakesAll</p>
-                </li>
-            }
-        </ul>
+    <div class="col-md-4">
+        <h3 id="history-title">Match history</h3>
+        <div id="match-history">
+            <ul>
+                @foreach (var match in Model.Matches)
+                {
+                    <li>
+                        <p>Game: @match.Id</p>
+                        <p>Buy in: £@match.BuyIn</p>
+                        <p>Date: @match.Date</p>
+                        <p>Winner takes all: @match.IsWinnerTakesAll</p>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <canvas id="pieChart" width="400" height="400" style="display: block; box-sizing: border-box; height: 400px; width: 400px;"></canvas>
+    </div>
+    <div class="col-md-4">
+        <canvas id="barChart" width="400" height="400" style="display: block; box-sizing: border-box; height: 400px; width: 400px;"></canvas>
     </div>
 </div>
+<script>
+    var stats = "";
+    $(function () {
+        stats = new Stats();
+        stats.buildPie();
+        stats.buildBar();
+    });
+</script>
 
+<script src="~/Scripts/Chart.js"></script>
+<script src="~/Scripts/JS/stats.js"></script>

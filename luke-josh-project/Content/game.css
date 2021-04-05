@@ -1,0 +1,21 @@
+﻿#qselected {
+    width: 100px;
+    height: 250px;
+    padding: 0px;
+    text-align: center;
+    margin-bottom: 10px;
+    border: 1px solid black;
+}
+
+#qlist {
+    width: 100px;
+    height: auto;
+    padding: 0px;
+    text-align: center;
+    margin-bottom: 10px;
+    border: 1px solid black;
+}
+
+.qitem {
+    border: 1px black solid;
+}
