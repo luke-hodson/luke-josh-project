@@ -17,15 +17,29 @@
             <label>Winner takes all</label><br />
             <input type="checkbox" id="winner-takes-all" />
         </div>
-
-        <label>Placing</label>
-        <ul id="sortable">
-            @foreach (var item in Model.Users)
-            {
-                <li class="ui-state-default" id="@item.Id">@item.Name</li>
-            }
-        </ul>
-
+        <div class="row">
+            <div class="col-md-2">
+                <label>Players</label>
+                <span>Drag:</span>
+                <div id="qlist">
+                    @foreach (var item in Model.Users)
+                    {
+                        <div class="qitem">
+                            <span data-item="@item.Id" class="question">@item.Name</span>
+                            <input type="hidden" value="@item.Id" class="hidden-selected" />
+                        </div>
+                    }
+                </div>
+                <input type="submit" name="add" value="reset" onclick="game.buildDraggable()" />
+            </div>
+            <div class="col-md-6">
+                <div>
+                    <span>Drop:</span>
+                    <div id="qselected">
+                    </div>                    
+                </div>
+            </div>
+        </div>
         <div class="form-group">
             <input type="button" id="submit-form" class="btn btn-primary" value="Submit" onclick="game.submit()" />
         </div>
@@ -35,8 +49,8 @@
 <script src="~/Scripts/JS/game.js"></script>
 <script>
     var game = "";
-    $(function () {
-        $("#sortable").sortable();
-        game = new Game();      
+    $(function () {       
+        game = new Game();
+        game.buildDraggable();
     });
 </script>

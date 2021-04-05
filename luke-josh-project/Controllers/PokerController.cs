@@ -28,11 +28,11 @@ namespace luke_josh_project.Controllers
             PokerViewModel viewModel = _pokerService.GetPokerData();
             List<Data.PokerResult> results = _pokerService.GetResults();
             List<Data.PokerMatch> matches = _pokerService.GetMatches();
-            
+
 
             //loop through data and map it to model
             foreach (var user in viewModel.Users)
-            {                
+            {
                 int totalIncoming = 0;
                 int totalOutgoings = 0;
                 int totalWins = 0;
@@ -41,7 +41,7 @@ namespace luke_josh_project.Controllers
                 foreach (var result in userResults)
                 {
                     var currentMatch = matches.Where(x => x.Id == result.PokerMatchId).FirstOrDefault();
-                    var matchResults = results.Where(x => x.PokerMatchId == currentMatch.Id);   
+                    var matchResults = results.Where(x => x.PokerMatchId == currentMatch.Id);
                     totalOutgoings += currentMatch.BuyIn;
 
                     //if this user won
@@ -49,11 +49,11 @@ namespace luke_josh_project.Controllers
                     {
                         totalWins += 1;
                         totalIncoming += (currentMatch.BuyIn * matchResults.Count());
-                        if(!currentMatch.IsWinnerTakesAll)
+                        if (!currentMatch.IsWinnerTakesAll)
                         {
                             //second place gets money back
                             totalIncoming -= currentMatch.BuyIn;
-                        }                              
+                        }
                     }
                 }
 
@@ -65,9 +65,9 @@ namespace luke_josh_project.Controllers
                 userScore.TotalOutgoings = totalOutgoings;
                 userScore.Profit = totalIncoming - totalOutgoings;
                 userScore.TotalLosses = userResults.Count - totalWins;
-                userScore.WinPercentage = Math.Round((totalWins * 100.0) / userResults.Count);  
+                userScore.WinPercentage = Math.Round((totalWins * 100.0) / userResults.Count);
 
-                scoreboard.Add(userScore);                
+                scoreboard.Add(userScore);
             }
 
             viewModel.Scoreboard = scoreboard;
@@ -90,10 +90,10 @@ namespace luke_josh_project.Controllers
             return View(model);
         }
 
-        
+
         public void AddGameResult(string order, int buyIn, bool winnerTakes)
         {
-            _pokerService.
+
         }
     }
 }

@@ -7,5 +7,5 @@
             success: success,
             contentType: 'application/json',
         });
-    };
+    };    
 }
