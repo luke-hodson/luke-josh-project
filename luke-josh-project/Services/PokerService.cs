@@ -60,28 +60,22 @@ namespace luke_josh_project.Services
             };
         }
 
-        public void AddGameResult(bool winnerTakes, int buyIn)
+        public void AddGameResult(PokerMatch match, List<PokerResult> results)
         {
-            PokerMatch match = new PokerMatch
-            {
-                Date = DateTime.Now,
-                IsWinnerTakesAll = winnerTakes,
-                BuyIn = buyIn                
-            };
-
-
-            PokerResult results = new PokerResult
-            {
-                PokerMatchId = 1,
-                Placing = 1,
-                PokerUserId = 1
-            };
-
             using (var db = new EFContext())
             {
-                var data = from matches in db.PokerMatches
-                           select matches;
+                db.PokerMatches.Add(match);
+                db.SaveChanges();
+                var matchId = match.Id;
 
+                for (int i = 0; i < results.Count; i++)
+                {
+                    results[i].PokerMatchId = matchId;
+                }
+
+                db.PokerResults.AddRange(results);
+
+                db.SaveChanges();
             };
         }
     }

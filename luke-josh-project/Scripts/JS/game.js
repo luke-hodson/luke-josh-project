@@ -1,4 +1,6 @@
 ﻿function Game() {
+    var _defaultHTML = "";
+
     this.submit = function () {
         //grab data
         var buyIn = $('#buy-in').val();       
@@ -40,5 +42,12 @@
                 $(ui.draggable).remove();
             }
         });
+
+        _defaultHTML = $('#drag-html').html();
+    };
+
+    this.resetDraggable = function () {
+        $('#drag-html').html(_defaultHTML);
+        this.buildDraggable();
     };
 }

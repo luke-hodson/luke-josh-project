@@ -1,4 +1,5 @@
-﻿using luke_josh_project.Models;
+﻿using luke_josh_project.Data;
+using luke_josh_project.Models;
 using luke_josh_project.Models.Enums;
 using luke_josh_project.Models.ViewModels;
 using luke_josh_project.Services;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace luke_josh_project.Controllers
 {
@@ -93,7 +95,27 @@ namespace luke_josh_project.Controllers
 
         public void AddGameResult(string order, int buyIn, bool winnerTakes)
         {
+            List<int> results = new JavaScriptSerializer().Deserialize<List<int>>(order);
+            List<PokerResult> resultsObj = new List<PokerResult>();
 
+            PokerMatch match = new PokerMatch
+            {
+                Date = DateTime.Now,
+                IsWinnerTakesAll = winnerTakes,
+                BuyIn = buyIn
+            };            
+
+            for (int i = 0; i < results.Count; i++)
+            {
+                resultsObj.Add(new PokerResult
+                {
+                    Placing = i + 1,
+                    PokerUserId = results[i],
+                    PokerMatchId = 0
+                });
+            }
+
+            _pokerService.AddGameResult(match, resultsObj);
         }
     }
 }
