@@ -8,39 +8,21 @@
 <div class="row">
     <div class="col-md-12">
         <select class="form-control">
+            <option>Everyone</option>
             @foreach (var item in Model.Users)
             {
-                <option>@item.Name</option>
+                <option> @item.Name </option>
             }
         </select>
+    </div>
+</div>
 
+<div class="row">
+    <div class="col-md-12">
         <h3>Scoreboard</h3>
-        <table style="width:100%">
-            <tr>
-                <th>Name</th>
-                <th>Games played</th>
-                <th>Win %</th>
-                <th>Total wins</th>
-                <th>Total Losses</th>
-                <th>Total incomings</th>
-                <th>Total outgoings</th>
-                <th>Profit</th>
-            </tr>
+        <div id="scoreboard-container">
 
-            @foreach (var match in Model.Scoreboard)
-            {
-                <tr>
-                    <td>@match.Name</td>
-                    <td>@match.GamesPlayed</td>
-                    <td>%@match.WinPercentage</td>
-                    <td>@match.TotalWins</td>
-                    <td>@match.TotalLosses</td>
-                    <td>@match.TotalIncomings</td>
-                    <td>@match.TotalOutgoings</td>
-                    <td>@match.Profit</td>
-                </tr>
-            }
-        </table>
+        </div>
     </div>
 </div>
 
@@ -68,12 +50,13 @@
         <canvas id="barChart" width="400" height="400" style="display: block; box-sizing: border-box; height: 400px; width: 400px;"></canvas>
     </div>
 </div>
+
+
 <script>
     var stats = "";
     $(function () {
         stats = new Stats();
-        stats.buildPie();
-        stats.buildBar();
+        stats.init('@Html.Raw(Json.Encode(Model.Scoreboard))');
     });
 </script>
 

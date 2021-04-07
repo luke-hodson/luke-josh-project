@@ -49,5 +49,5 @@
     this.resetDraggable = function () {
         $('#drag-html').html(_defaultHTML);
         this.buildDraggable();
-    };
+    };  
 }
