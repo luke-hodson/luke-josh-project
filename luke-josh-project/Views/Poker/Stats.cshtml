@@ -2,54 +2,63 @@
 @{
     ViewBag.Title = "Stats";
 }
+<link href="~/Content/stats.css" rel="stylesheet" />
 <h2>@ViewBag.Title.</h2>
 
 <div class="row">
     <div class="col-md-12">
-        <h3>Scoreboard</h3>
-        <table style="width:100%">
-            <tr>
-                <th>Name</th>
-                <th>Games played</th>
-                <th>Win %</th>
-                <th>Total wins</th>
-                <th>Total Losses</th>
-                <th>Total incomings</th>
-                <th>Total outgoings</th>
-                <th>Profit</th>
-            </tr>
-
-            @foreach (var match in Model.Scoreboard)
+        <select class="form-control">
+            <option>Everyone</option>
+            @foreach (var item in Model.Users)
             {
-                <tr>
-                    <td>@match.Name</td>
-                    <td>@match.GamesPlayed</td>
-                    <td>%@match.WinPercentage</td>
-                    <td>@match.TotalWins</td>
-                    <td>@match.TotalLosses</td>
-                    <td>@match.TotalIncomings</td>
-                    <td>@match.TotalOutgoings</td>
-                    <td>@match.Profit</td>
-                </tr>
+                <option> @item.Name </option>
             }
-        </table>
+        </select>
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-12">
-        <h3>Match history</h3>
-        <ul>
-            @foreach (var match in Model.Matches)
-            {
-                <li>
-                    <p>Game: @match.Id</p>
-                    <p>Buy in: £@match.BuyIn</p>
-                    <p>Date: @match.Date</p>
-                    <p>Winner takes all: @match.IsWinnerTakesAll</p>
-                </li>
-            }
-        </ul>
+        <h3>Scoreboard</h3>
+        <div id="scoreboard-container">
+
+        </div>
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-4">
+        <h3 id="history-title">Match history</h3>
+        <div id="match-history">
+            <ul>
+                @foreach (var match in Model.Matches)
+                {
+                    <li>
+                        <p>Game: @match.Id</p>
+                        <p>Buy in: £@match.BuyIn</p>
+                        <p>Date: @match.Date</p>
+                        <p>Winner takes all: @match.IsWinnerTakesAll</p>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <canvas id="pieChart" width="400" height="400" style="display: block; box-sizing: border-box; height: 400px; width: 400px;"></canvas>
+    </div>
+    <div class="col-md-4">
+        <canvas id="barChart" width="400" height="400" style="display: block; box-sizing: border-box; height: 400px; width: 400px;"></canvas>
+    </div>
+</div>
+
+
+<script>
+    var stats = "";
+    $(function () {
+        stats = new Stats();
+        stats.init('@Html.Raw(Json.Encode(Model.Scoreboard))');
+    });
+</script>
+
+<script src="~/Scripts/Chart.js"></script>
+<script src="~/Scripts/JS/stats.js"></script>

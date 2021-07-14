@@ -3,11 +3,12 @@
 
     ViewBag.Title = "Game";
 }
+<link href="~/Content/game.css" rel="stylesheet" />
 <h2>Manage games.</h2>
 
 <div class="row">
     <div class="col-md-12">
-        <h3>New game</h3>
+        <h3>Add game</h3>
         <div class="form-group">
             <label>Buy in</label>
             <input type="number" class="form-control" id="buy-in" />
@@ -17,15 +18,28 @@
             <label>Winner takes all</label><br />
             <input type="checkbox" id="winner-takes-all" />
         </div>
-
-        <label>Placing</label>
-        <ul id="sortable">
-            @foreach (var item in Model.Users)
-            {
-                <li class="ui-state-default" id="@item.Id">@item.Name</li>
-            }
-        </ul>
-
+        <div class="row" id="drag-html">
+            <div class="col-md-2">
+                <label>Players</label>
+                <div id="qlist">
+                    @foreach (var item in Model.Users)
+                    {
+                        <div class="qitem">
+                            <span data-item="@item.Id" class="question">@item.Name</span>
+                            <input type="hidden" value="@item.Id" class="hidden-selected" />
+                        </div>
+                    }
+                </div>
+                <input type="submit" name="add" value="reset" onclick="game.resetDraggable()" />
+            </div>
+            <div class="col-md-6">
+                <div>
+                    <label>Game result</label>
+                    <div id="qselected">
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="form-group">
             <input type="button" id="submit-form" class="btn btn-primary" value="Submit" onclick="game.submit()" />
         </div>
@@ -36,7 +50,7 @@
 <script>
     var game = "";
     $(function () {
-        $("#sortable").sortable();
-        game = new Game();      
+        game = new Game();
+        game.buildDraggable();
     });
 </script>
