@@ -93,7 +93,7 @@ namespace luke_josh_project.Controllers
         
         public void AddGameResult(string order, int buyIn, bool winnerTakes)
         {
-            _pokerService.
+            //_pokerService.
         }
     }
 }
